@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,14 +16,14 @@ import org.sid.enumclass.BookReservationStatus;
 public class BookReservation implements Serializable {
 	@Id @GeneratedValue
 	private Long idBookReservation;
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name="id_Member")
 	private Member member;
 	private Date dateReservation;
 	private BookReservationStatus status;
 	private Date dateTermination;
 	private Date returnDate= null;
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.REMOVE)
 	@JoinColumn(name="Id_Book")	
 	private Book book;
 	
@@ -97,6 +98,14 @@ public class BookReservation implements Serializable {
 	}
 	public void setBook(Book book) {
 		this.book = book;
+	}
+
+
+	@Override
+	public String toString() {
+		return "BookReservation [idBookReservation=" + idBookReservation + ", member=" + member + ", dateReservation="
+				+ dateReservation + ", status=" + status + ", dateTermination=" + dateTermination + ", returnDate="
+				+ returnDate + ", book=" + book + "]";
 	}
 	
 }

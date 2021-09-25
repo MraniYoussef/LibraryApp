@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.sid.dao.MemberRepository;
 import org.sid.dao.SubscriptionRepository;
 import org.sid.entities.Member;
@@ -29,7 +31,7 @@ public class SubscriptionService {
 		
 		Member memberToSubscribe = memberRepository.getById(idMember);
 		Optional<Subscription> subscriptionMemberToSubscribe = subscriptionService.findMemberSubscriptions(idMember);
-		MemberFunction memberFunction = memberToSubscribe.getFunction();
+		MemberFunction memberFunction = memberToSubscribe.getFonction();
 		List<Subscription> listsubscriptions = subscriptionService.findAllSubscriptions();
 		System.out.println("ffffffff");
 		 double price=0;
@@ -112,12 +114,16 @@ public class SubscriptionService {
 	public Optional<Subscription> findMemberSubscriptions(Long idMember) {
 		return subscriptionRepository.findMemberSubscriptions(idMember);
 	}
-	
+	@Transactional
 	public void deleteSubscription(Long id) {
 		subscriptionRepository.deleteSubscriptionByIdSubscription(id);
 	}
 	public boolean checkBlockageMember(Long idMember) {
 		Optional<Subscription> subscription = subscriptionRepository.findMemberSubscriptions(idMember);
+		if(subscription.isPresent() == false) {
+			return false;
+		}
+			
 		if(subscription.get().getIsBlocked()==true) {
 			return true;
 		}else 
@@ -162,4 +168,7 @@ public class SubscriptionService {
 	        }
 	        return  subscriptionPeriod;
 	    }
+	public List<Subscription> findSubscriptionByLastName(String lastName) {
+		return subscriptionRepository.findSubscriptionByLastName(lastName);
+	}
 }

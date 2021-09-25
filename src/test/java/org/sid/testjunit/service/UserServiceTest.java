@@ -47,7 +47,7 @@ public class UserServiceTest {
 		// when
 		Mockito.when(memberRepository.save(member)).thenReturn(member);
 		//then
-		Assertions.assertThat(userService.createUser(member)).isEqualTo(member);
+		Assertions.assertThat(userService.createMember(member)).isEqualTo(member);
 		}
 	@Test
 	public void testfindAllUsers() {

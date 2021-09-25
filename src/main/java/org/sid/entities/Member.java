@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,13 +27,11 @@ public class Member  implements Serializable {
 	private String email;
 	private String address;
 	private Date dateOfMembership;
-	private MemberFunction function;
-	@OneToOne
+	private MemberFunction fonction;
+	@OneToOne(cascade= CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name="Id_Subscription")	
 	private Subscription subscription;
-	//@OneToMany
-	//@JoinColumn(name="id_BkReserv")
-	//private Collection<BookReservation> bookReservations;
+	
 	
 	public Member() {
 		super();
@@ -40,7 +39,7 @@ public class Member  implements Serializable {
 	}
 		
 	public Member(String firstName, String lastName, String password, String cin, String email, String address,
-			Date dateOfMembership, MemberFunction function, Subscription subscription) {
+			Date dateOfMembership, MemberFunction fonction, Subscription subscription) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -49,7 +48,7 @@ public class Member  implements Serializable {
 		this.email = email;
 		this.address = address;
 		this.dateOfMembership = dateOfMembership;
-		this.function = function;
+		this.fonction = fonction;
 		this.subscription = subscription;
 	}
 
@@ -122,12 +121,14 @@ public class Member  implements Serializable {
 		this.dateOfMembership = dateOfMembership;
 	}
 
-	public MemberFunction getFunction() {
-		return function;
+	
+
+	public MemberFunction getFonction() {
+		return fonction;
 	}
 
-	public void setFunction(MemberFunction function) {
-		this.function = function;
+	public void setFonction(MemberFunction fonction) {
+		this.fonction = fonction;
 	}
 
 	public Subscription getSubscription() {
@@ -137,7 +138,12 @@ public class Member  implements Serializable {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
-
+	@Override
+	public String toString() {
+		return "Member [idMember=" + idMember + ", firstName=" + firstName + ", lastName=" + lastName + ", password="
+				+ password + ", cin=" + cin + ", email=" + email + ", address=" + address + ", dateOfMembership="
+				+ dateOfMembership + ", fonction=" + fonction + "]";
+	}
 
 	
 }

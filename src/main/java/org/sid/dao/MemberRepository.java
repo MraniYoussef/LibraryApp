@@ -1,5 +1,7 @@
 package org.sid.dao;
 
+import java.util.List;
+
 import org.sid.entities.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,8 @@ public interface MemberRepository
 	 //Page<Member> chercher(@Param("x")String me, Pageable pageable);
 
 	public Member findMemberByIdMember(Long id);
+	
+	public List<Member> findMemberByLastName(String lastName);
 
 	public void deleteMemberByIdMember(Long id);
 	 

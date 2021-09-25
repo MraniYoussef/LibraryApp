@@ -17,6 +17,7 @@ import org.sid.exception.BookReservationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookReservationService {
@@ -24,7 +25,8 @@ public class BookReservationService {
 	private  BookService bookService;
 	@Autowired
 	private SubscriptionService subscriptionService;
-	
+	@Autowired
+	Optional<BookReservation> bookReservationToUpdate;
 	private final BookReservationRepository bookReservationRepository;
 	@Autowired
 	private MemberRepository memberRepository;
@@ -98,15 +100,32 @@ public class BookReservationService {
 	public Long getCountMemberReservations(Long idMember) {
 		return  bookReservationRepository.countMemberReservations(idMember);
 	}
+	@Transactional
 	public BookReservation updateBookReservation(BookReservation bookReservation) {
-		return bookReservationRepository.save(bookReservation);
+		bookReservationToUpdate = bookReservationRepository.findBookReservationByIdBookReservation(bookReservation.getIdBookReservation());
+		System.out.println("nononoles valeurs"+bookReservationToUpdate);
+		bookReservationToUpdate.get().setBook(bookReservation.getBook());
+		bookReservationToUpdate.get().setDateReservation(bookReservation.getDateReservation());
+		bookReservationToUpdate.get().setDateTermination(bookReservation.getDateTermination());
+		bookReservationToUpdate.get().setIdBookReservation(bookReservation.getIdBookReservation());
+		bookReservationToUpdate.get().setMember(bookReservation.getMember());
+		bookReservationToUpdate.get().setReturnDate(bookReservation.getReturnDate());
+		bookReservationToUpdate.get().setStatus(bookReservation.getStatus());
+		System.out.println("nononoles valeurs"+bookReservationToUpdate);
+
+		return bookReservationRepository.save(bookReservationToUpdate.get());
 	}
-	
-	public BookReservation findBookReservationByIdBookReservation(Long id) {
-		return bookReservationRepository.findBookReservationByIdBookReservation(id)
-				.orElseThrow(() -> new BookReservationNotFoundException("BookReservation by id"+id+ " was not found"));
-	}
-	
+		
+
+	/*
+	 * public BookReservation findBookReservationByIdBookReservation(Long id) {
+	 * return bookReservationRepository.findBookReservationByIdBookReservation(id)
+	 * .orElseThrow(() -> new
+	 * BookReservationNotFoundException("BookReservation by id"+id+
+	 * " was not found")); }
+	 */
+	 
+	@Transactional
 	public void deleteBookReservation(Long id) {
 		bookReservationRepository.deleteBookReservationByIdBookReservation(id);
 	}
@@ -225,7 +244,11 @@ public class BookReservationService {
             excep.printStackTrace();   
         }
         return  difference;
-    }   
+    }
+	public List<BookReservation> getBookReservationByTitleBook(String titleBook) {
+		List<BookReservation> bookReservations = bookReservationRepository.getBookReservationByTitleBook(titleBook);
+				return bookReservations;
+	}   
 }
 
 

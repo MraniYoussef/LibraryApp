@@ -1,5 +1,6 @@
 package org.sid.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.sid.entities.Subscription;
@@ -19,6 +20,10 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 	
 	@Query("select s from Subscription s where s.member.idMember like :x" ) 
 	public Optional<Subscription> findMemberSubscriptions(@Param("x")Long idMember);
+	
+	@Query("select s from Subscription s where s.member.lastName like :x" ) 
+	public List<Subscription> findSubscriptionByLastName(@Param("x")String lastName);
+
 	
 	
 	

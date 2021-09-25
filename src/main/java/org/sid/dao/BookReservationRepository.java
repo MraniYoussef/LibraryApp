@@ -19,8 +19,10 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
 	@Query("select bk from BookReservation bk where bk.member.firstName like :x" )
 	public Page<BookReservation> chercher(@Param("x")String bk, Pageable pageable);
 
-
 	public Optional<BookReservation> findBookReservationByIdBookReservation(Long id);
+	
+	@Query("select bk from BookReservation bk where bk.id like :x" ) 
+	public BookReservation findBookReservationByIdBookRes(@Param("x")Long id);
 
 	@Query("select bk from BookReservation bk where bk.member.idMember like :x" ) 
 	public BookReservation findMemberReservations(@Param("x")Long idMember);
@@ -32,6 +34,9 @@ public interface BookReservationRepository extends JpaRepository<BookReservation
 
 	@Query("select count(bk) from BookReservation bk where bk.member.idMember like :x" )
 	public Long countMemberReservations(@Param("x")Long idMember);
+	
+	@Query("select bk from BookReservation bk where bk.book.title like :x" )
+	public List<BookReservation> getBookReservationByTitleBook(@Param("x")String titleBook);
 	
 	//@Query("select count(*) from BookReservation bk where bk.member.IdMember like :x" )
 	//public int countBookReservationByIdUser(@Param("x")Long id);

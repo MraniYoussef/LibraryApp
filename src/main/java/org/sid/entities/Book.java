@@ -3,6 +3,7 @@ package org.sid.entities;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -36,7 +37,7 @@ public class Book implements Serializable {
 	private int numberCopies;
 	
 	private int numberBooksAvailable;
-	//@OneToMany
+	//@OneToMany(cascade= CascadeType.REMOVE, orphanRemoval = true)
 	//@JoinColumn(name="Id_BookRes")
 	//private Collection<BookReservation> bookReservations;
 	
@@ -88,6 +89,12 @@ public class Book implements Serializable {
 	}
 	public void setNumberBooksAvailable(int numberBooksAvailable) {
 		this.numberBooksAvailable = numberBooksAvailable;
+	}
+	@Override
+	public String toString() {
+		return "Book [idBook=" + idBook + ", author=" + author + ", title=" + title + ", type=" + type
+				+ ", numberCopies=" + numberCopies + ", numberBooksAvailable=" + numberBooksAvailable
+				+ "]";
 	}
 	
 

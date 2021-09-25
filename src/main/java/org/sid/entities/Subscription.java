@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ public class Subscription implements Serializable {
 	@Id @GeneratedValue
 	private Long idSubscription;
 	//private Employee employee;
-	@OneToOne
+	@OneToOne(cascade= CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name="Id_Member")	
 	private Member member;
 	private int BlockageDaysPeriod;

@@ -9,6 +9,7 @@ import org.sid.entities.Book;
 import org.sid.exception.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookService {
@@ -18,6 +19,7 @@ public class BookService {
 	public BookService(BookRepository bookRepository) {
 		this.bookRepository= bookRepository;
 	}
+	
 	public Book createBook(Book book) {
 		return bookRepository.save(book);
 	}
@@ -27,12 +29,13 @@ public class BookService {
 	public Book updateBook(Book book) {
 		return bookRepository.save(book);
 	}
-	public Book findBookByTitle(String title) {
+	public List<Book> findBookByTitle(String title) {
 		return bookRepository.findBookByTitle(title);
 	}
 	public Book findBookByIdBook(Long id) {
 		return bookRepository.findBookByIdBook(id).orElseThrow(() -> new BookNotFoundException("Book by id"+id+ " was not found"));
 	}
+	@Transactional
 	public void deleteBook(Long id) {
 		bookRepository.deleteBookByIdBook(id);
 	}

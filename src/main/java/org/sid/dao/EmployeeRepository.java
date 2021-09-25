@@ -1,5 +1,7 @@
 package org.sid.dao;
 
+import java.util.List;
+
 import org.sid.entities.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,10 @@ public interface EmployeeRepository
 	 //Page<Employee> chercher(@Param("x")String em, Pageable pageable);
 
 	public Employee findEmployeeByIdEmployee(Long id);
-
+	
 	public void deleteEmployeeByIdEmployee(Long id);
+
+	public List<Employee> findEmployeeByLastName(String lastName);
 	 
 											 
 
